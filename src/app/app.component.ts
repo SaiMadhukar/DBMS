@@ -21,6 +21,8 @@ export class AppComponent {
     public primaryBankId = ""
     public requestMessage= ""
     public requestMessageRequired = false
+    public oldTransactions = []
+    public headings = ["STID","Amount","Data/Time","Memo","Cancelled","SSN","SIDentifier"]
     
     public isMessageRequired = false
     public loginPageHidden = false
@@ -66,6 +68,9 @@ export class AppComponent {
           this.name = userData[1]
           this.emailId = response['email_id']
           this.additionalAccounts = response['additional_accounts']
+          this.oldTransactions = response['oldTransactions']
+          console.log(this.oldTransactions);
+          
           this.primaryBankId = userData[4]
           console.log(this.emailId);
           
@@ -123,11 +128,30 @@ export class AppComponent {
         }
         })
     }
-    requestMoney(remailid,ramount) {
+
+    requestMoney(remailid,ramount,rssn) {
+
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type':  'application/json',
+        })
+      };
 
       console.log("Requesting for Money",remailid,ramount);
       this.requestMessage = "Request Successfull"
       this.requestMessageRequired = true
+
+      var url = "http://localhost:5000/requestMoney"
+      var data = {
+          'remailid': remailid,
+          'ramount': ramount,
+          'rssn': rssn
+      }
+      this.httpClient.post(url,data,httpOptions).subscribe( (response) => {
+
+          console.log(response);
+          
+      })
       
     }
 }

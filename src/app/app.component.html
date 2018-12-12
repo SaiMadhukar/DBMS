@@ -48,10 +48,12 @@
                 <br>
                 <p > Request Money Screen </p>
 
+                <input #rssn type="text" placeholder="SSN">
                 <input #recipientsEmail type="text" placeholder="Enter Email Address  ">
                 <input #askamount type="text" placeholder="Amount">
+                
                 <br>
-                <button (click)="requestMoney(recipientsEmail.value,askamount.value)">Request</button>
+                <button (click)="requestMoney(recipientsEmail.value,askamount.value,rssn.value)">Request</button>
                 <div *ngIf="requestMessageRequired"><br> {{ requestMessage }} </div>
 
             </div>
@@ -78,6 +80,13 @@
                   <br>
                   <p>  Account Statements Screen </p>
 
+                  
+                  <span *ngFor="let transcation of oldTransactions;index as i">
+                      <span *ngFor="let one of transcation;index as j">
+
+                          <label> {{headings[j]}}-{{ one}} |||</label>
+                      </span>
+                  </span>
 
             </div>
 
