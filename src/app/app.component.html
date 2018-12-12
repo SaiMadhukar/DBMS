@@ -6,26 +6,94 @@
   <div *ngIf = "loginPageHidden; then afterLogin; else loginPage" >  </div>
 <ng-template #loginPage>
 
-    <input  #username type="text" placeholder="Username">
-    <input  #password type="password" placeholder="password">
-    <button  (click)="logIn(username.value,password.value)">LogIn</button>
+    <input  #ssn type="text" placeholder="SSN Number">
+
+    <button  (click)="logIn(ssn.value)">LogIn</button>
     <h2> {{message}} </h2>
 </ng-template>
 
 <ng-template #afterLogin> 
 
   {{message}}
-  <app-mainscreen> </app-mainscreen>
   
-  </ng-template>
+</ng-template>
 
-<button (click)="getData()" >Get Data</button>
 
 <div *ngIf="showData; then data else hideData"></div>
 
 <ng-template #data>
 
-  <label> Your Account Balance is {{ Balance }}</label>
+  <label>Hello {{name}}</label><br>
+  <label> Your Account Balance is {{ balance }}</label>
+  <div>
+    <br>
+        <button #sendmoneybutton (click)="changeScreens(1)"> Send Money</button>
+        <button #requestmoneybutton (click)="changeScreens(2)">Request Money </button>
+        <button #accountsettings (click)="changeScreens(3)"> Account Settings</button>
+        <button #statements (click)="changeScreens(4)" > Statements</button>
+        <div [ngSwitch]="type"> 
+
+            <div *ngSwitchCase=1 >
+              <br><br>
+              <p > Send Money Screen </p>
+             
+              <input #smRecipient type="text" placeholder="Enter Email address"> 
+              <input #amount type="text" placeholder="Enter Amount">
+              <button (click)="sendMoneyConfirm(smRecipient.value,amount.value)"> send</button>
+              <div *ngIf="isMessageRequired"><br>{{ errorMessage }}</div>
+
+            </div>
+
+            <div *ngSwitchCase = 2>
+                <br>
+                <p > Request Money Screen </p>
+
+                <input #rssn type="text" placeholder="SSN">
+                <input #recipientsEmail type="text" placeholder="Enter Email Address  ">
+                <input #askamount type="text" placeholder="Amount">
+                
+                <br>
+                <button (click)="requestMoney(recipientsEmail.value,askamount.value,rssn.value)">Request</button>
+                <div *ngIf="requestMessageRequired"><br> {{ requestMessage }} </div>
+
+            </div>
+
+            <div *ngSwitchCase=3>
+              <br>
+              <p>  Account Settings Screen </p>
+              
+              <label> Email  </label>
+              <input #emailchange type="text" editable="false" placeholder={{emailId}}>
+              <button (click)="changeEmailId(emailchange.value)"> change </button>
+              <br>
+              <br>
+              <h4> Primary Bank Account ID {{ primaryBankId}}</h4><br>
+              <label> Additonal Bank Accounts</label>
+              <div *ngFor="let acc of additionalAccounts; index as i">  
+
+                  <label> Account-{{i+1}}  </label>
+                  <label>  {{acc}}  </label>
+                  <button>  Delete</button>
+              </div>
+            </div>
+            <div *ngSwitchCase=4>
+                  <br>
+                  <p>  Account Statements Screen </p>
+
+                  
+                  <span *ngFor="let transcation of oldTransactions;index as i">
+                      <span *ngFor="let one of transcation;index as j">
+
+                          <label> {{headings[j]}}=>{{ one}} |||</label>
+                      </span>
+                  </span>
+
+            </div>
+
+        </div>
+        
+  </div>
+
 </ng-template>
 
 <ng-template #hide>
@@ -33,8 +101,8 @@
   <label> Your data is hidden</label>
 </ng-template>
 
-<!-- After Logging In  -->
 
+<!-- After Logging In  -->
 
 
 

@@ -7,7 +7,7 @@ import { LoginComponent } from './login/login.component';
 import { MainscreenComponent } from './mainscreen/mainscreen.component';
 import { UserDetailsService } from './user-details.service';
 import { HttpClientModule   } from '@angular/common/http';
-import { InterceptorModule } from './Interceptor.module';
+
 
 @NgModule({
   declarations: [
@@ -18,8 +18,7 @@ import { InterceptorModule } from './Interceptor.module';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule,
-    InterceptorModule
+    HttpClientModule
   ],
   providers: [UserDetailsService],
   bootstrap: [AppComponent]
